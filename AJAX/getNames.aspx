@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="getNames.aspx.cs" Inherits="MediRecord_getNames" %>

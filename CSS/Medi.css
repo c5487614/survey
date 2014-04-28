@@ -1,0 +1,52 @@
+﻿a:link {
+	color:#333;
+	text-decoration:none;
+}
+a:visited {
+	color:#333;
+	text-decoration:none;
+}
+a:hover {
+	color:#FF3333;
+	text-decoration:none;
+}
+body{
+font-size:12px;
+color:#333333;
+}
+.mainDiv
+{
+	width:950px;
+	text-align:left;
+	margin:auto;
+}
+.myul
+{
+	list-style-type:none;
+	margin:0px 0px 0px 0px;
+}
+.tbox
+{
+	width:100px;
+}
+.rightDiv
+{
+	width:340px;
+	float:right;
+	clear:right;
+	overflow:hidden;
+	text-align: left; 
+	border: 1px solid #e3ed92; 
+	background: #fdffec; 
+	background-position: #fdffec;
+
+}
+.mySelect
+{
+	 background-color:#e3ed92;
+}
+.tbox_advice
+{
+    width:400px;
+    height:70px;
+}

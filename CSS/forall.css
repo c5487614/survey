@@ -1,0 +1,93 @@
+@charset "utf-8";
+/* CSS Document */
+a:link {
+	color:#333;
+	text-decoration:none;
+}
+a:visited {
+	color:#333;
+	text-decoration:none;
+}
+a:hover {
+	color:#FF3333;
+	text-decoration:none;
+}
+body{
+font-size:12px;
+color:#333333;
+}
+.mainDiv
+{
+	width:950px;
+	text-align:left;
+	margin:auto;
+}
+.leftDiv
+{
+	width:395px;
+	float:left;
+	clear:left;
+	overflow:hidden;
+	border:2px solid #eee;
+}
+.rightDiv
+{
+	width:395px;
+	float:right;
+	clear:right;
+	overflow:hidden;
+	border:2px solid #eee;
+}
+.upperLeft
+{
+	width:395px;
+	float:left;
+	clear:left;
+	overflow:hidden;
+	border:2px solid #eee;
+}
+.upperRight
+{
+	width:395px;
+	float:right;
+	clear:right;
+	overflow:hidden;
+	border:2px solid #eee;
+}
+.hDiv
+{
+	height:30px;
+}
+.tbox
+{
+	width:100px;
+}
+.lbl
+{
+	width:90px;
+	text-align:right;
+}
+.myli
+{
+	list-style-type:none;
+	padding-left:0px;
+	margin:0px;
+	text-align:left;
+	width:60px;
+}
+.searchDiv
+{
+	height:150px;
+	border:2px solid #eee;
+}
+.myul
+{
+	width:200px;
+	list-style-type:none;
+	margin:0px 0px 0px 0px;
+	text-align:left
+}
+.highlight
+{
+	background-color:#e1e1e1;
+}
