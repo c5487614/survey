@@ -28,6 +28,7 @@ public class PatientTable :Ftable
         this.tableRdn = "12";
         this.tableName = "邵逸夫医院住院病人满意度调查";
 	}
+	
     public string saveBrifeInfo(string fillperson, string isfirst, string personSex, string regdate, string regdept, string job, string other1,string other2,string tablescore,string payType,string dept,string floorName,string promote,string needImprove, GridView gv)
     {
         string[] paramNames = new string[17];

@@ -19,6 +19,8 @@ public partial class Patient_Default : System.Web.UI.Page
 
         //if (Session["power"] == null) Response.Redirect("../Default.aspx");
         //if (!srrshPage.Level2(Session["power"].ToString())) Response.Redirect("../Err/powerNeed.aspx");//没权限
+		//Added by Chunhui Chen 2014-04-29
+		initUser();
 
         SqlConnect conn = new SqlConnect();
         string sql = "select * from JCI_generateTable where tablerdn=12 order by largeItemRdn ASC, SortId ASC";
@@ -31,6 +33,28 @@ public partial class Patient_Default : System.Web.UI.Page
 		conn.DropDownListBind(sql, ddl_floor);
 		tbox_reportDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
     }
+	private void initUser()
+	{
+		if (Session["user"] == null)
+		{
+			Response.Redirect("../Admin_login.aspx");
+			return;
+		}
+		User u = Session["user"] as User;
+		if (u == null)
+		{
+			Response.Redirect("../Admin_login.aspx");
+			return;
+		}
+		if (u.Power.Equals("admin"))
+		{
+			hf_hidden_test.Value = "true";
+		}
+		else
+		{
+			hf_hidden_test.Value = "false";
+		}
+	}
     private string getInfo(CheckBox[] cbs)
     {
         foreach (CheckBox cb in cbs)
@@ -42,6 +66,12 @@ public partial class Patient_Default : System.Web.UI.Page
 
     protected void Button1_Click1(object sender, EventArgs e)
     {
+		if (hf_hidden_test.Value.Equals("false"))
+		{
+			//没有权限
+			Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>alert('没有权限');</script>");
+			return;
+		}
         try
         {
             CheckBox[] cbs = new CheckBox[4];

@@ -1,3 +1,6 @@
 select dbo.detailInfo.*,dbo.brifeInfo.mrn,dbo.brifeInfo.pName from dbo.detailInfo,dbo.brifeInfo where applyRdn in(
 select rdn from dbo.brifeInfo where docdept='²âÊÔ' and convert(nvarchar(10),fillindate,120)>='2010-04-01' and convert(nvarchar(10),fillindate,120)<='2010-04-30'
 ) and applyRdn=brifeInfo.Rdn and result<>'0' order by smallitemrdn asc
+
+Alter table dbo.JCI_empTable add empPsw varchar(20)
+Alter table dbo.JCI_empTable add empDeptName varchar(30)

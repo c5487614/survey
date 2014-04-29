@@ -82,12 +82,13 @@
 </head>
 <body style="background-image:url(../Image/bg_01.gif); background-repeat:repeat-x">
     <form id="form1" runat="server">
+    <asp:HiddenField ID="hf_hidden_test" runat="server" />
     <div class="mainDiv">
         <div style="text-align:center">
          <h2>邵逸夫医院住院病人满意度调查表</h2>
         </div>
         <div>
-		
+			
 		<table id="myulli">
 			<tr>
 				<!--report date-->
