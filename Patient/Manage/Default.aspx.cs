@@ -11,9 +11,21 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 		if (IsPostBack) return;
+        UserPower user = Session["user"] as UserPower;
+        if (user == null)
+        {
+            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>没有登录或会话失效，请登录！</script>");
+            Response.Redirect("../../Admin_login.aspx");
+            return;
+        }
+        PowerManage(user);
 		u_init();
     }
 
+    private void PowerManage(UserPower user)
+    { 
+
+    }
 	private void u_init()
 	{
 		string sql = "select top 1000 * from dbo.JCI_patient_brifeInfo order by rdn DESC";

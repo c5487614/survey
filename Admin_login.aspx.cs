@@ -19,7 +19,22 @@ public partial class Admin_login : System.Web.UI.Page
     {
         try
         {
-
+            //Alter table dbo.JCI_newEmp add psw varchar(16)
+            UserPower user = new UserPower();
+            user.UserId = tb_UserId.Text;
+            user.UserDept = tb_userDept.Text;
+            user.Psw = tb_UserPsw.Text;
+            user = user.Login(user);
+            if (user != null)
+            {
+                Session["user"] = user;
+                Response.Redirect("Patient/Manage/Default.aspx");
+            }
+            else
+            {
+                Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>用户名或密码错误！</script>");
+                return;
+            }
         }
         catch (Exception ex)
         {

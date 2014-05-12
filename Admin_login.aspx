@@ -8,14 +8,18 @@
 <title>邵逸夫医院护理进修管理页面</title>
 </head>
 
-<body style="background-image:url(images/login_back.jpg); margin:0px; text-align:center;">
+<body style="background-image:url(Image/login_back.jpg); margin:0px; text-align:center;">
 <form runat="server" id="form1">
-    <div style="height:342px; margin:auto; padding-top:278px; width:1000px; background-image:url(images/login_bl.jpg); text-align:left;">
-    	<div style="padding-left:430px; height:20px;">
+    <div style="height:342px; margin:auto; padding-top:250px; width:1000px; background-image:url(Image/login_bl.jpg); text-align:left;">
+    	<div style="padding-left:450px; height:20px;">
+            <asp:TextBox ID="tb_userDept" runat="server" Width="150px"></asp:TextBox>
+    	</div>
+    	<div style=" height:20px;"></div> 
+    	<div style="padding-left:450px; height:20px;">
             <asp:TextBox ID="tb_UserId" runat="server" Width="150px"></asp:TextBox>
     	</div>
-        <div style=" height:24px;"></div> 
-        <div style="padding-left:430px; height:20px;">
+        <div style=" height:20px;"></div> 
+        <div style="padding-left:450px; height:20px;">
             <asp:TextBox ID="tb_UserPsw" runat="server" TextMode="Password" Width="150px"></asp:TextBox>
         </div>
         <div style=" height:14px;"></div> 
