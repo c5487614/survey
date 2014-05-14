@@ -12,6 +12,7 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
     {
 		if (IsPostBack) return;
         UserPower user = Session["user"] as UserPower;
+		user = GetDummyUser();
         if (user == null)
         {
             Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>没有登录或会话失效，请登录！</script>");
@@ -21,10 +22,29 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
         PowerManage(user);
 		u_init();
     }
-
+    private UserPower GetDummyUser()
+    {
+        UserPower user = new UserPower();
+        user.Power = "admin";
+		Session["user"] = user;
+        return user;
+    }
     private void PowerManage(UserPower user)
-    { 
-
+    {
+        if (user.Power.Equals("admin"))
+        {
+            //do nothing
+        }
+        else if (user.Power.Equals("superuser"))
+        {
+        }
+        else if (user.Power.Equals("user"))
+        {
+        }
+        else
+        {
+            //default
+        }
     }
 	private void u_init()
 	{
@@ -238,5 +258,26 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		response.WriteFile(fileName);
 		response.Flush();
 		response.Close();
+	}
+	protected void rpt_patient_ItemDataBound(object sender, RepeaterItemEventArgs e)
+	{
+		//e.Item.DataItem
+		UserPower user = Session["user"] as UserPower;
+		user = GetDummyUser();
+		if (user == null)
+		{
+			Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>没有登录或会话失效，请登录！</script>");
+			Response.Redirect("../../Admin_login.aspx");
+		}
+		object o = e.Item.DataItem;
+		Control Btndelete = e.Item.FindControl("btn_delete");
+		if (Btndelete != null)
+		{
+			if (!user.IsAdmin())
+			{
+				Btndelete.Visible = false;
+			}
+		}
+		
 	}
 }

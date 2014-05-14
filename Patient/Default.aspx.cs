@@ -40,7 +40,7 @@ public partial class Patient_Default : System.Web.UI.Page
 			Response.Redirect("../Admin_login.aspx");
 			return;
 		}
-		User u = Session["user"] as User;
+		UserPower u = Session["user"] as UserPower;
 		if (u == null)
 		{
 			Response.Redirect("../Admin_login.aspx");

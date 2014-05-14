@@ -68,13 +68,37 @@ public class UserPower
         string retPower = string.Empty;
         switch (power)
         {
-            case "":
+            case "查看所有":
+                retPower = "superuser";
+                break;
+            case "查看本部门":
+                retPower = "user";
+                break;
+            case "查看所有和所有操作":
+                retPower = "admin";
                 break;
             default:
+                retPower = "user";
                 break;
         }
         return retPower;
     }
+	public bool IsAdmin()
+	{
+		if (this.Power.Equals("admin")) return true;
+		return false;
+	}
+	public bool IsSuperuser()
+	{
+		if (this.Power.Equals("superuser")) return true;
+		return false;
+	}
+	public bool IsUser()
+	{
+		if (this.Power.Equals("user")) return true;
+		return false;
+	}
+
     public UserPower Login(UserPower u)
     {
         SqlConnect conn = new SqlConnect();

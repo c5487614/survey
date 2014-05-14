@@ -77,7 +77,8 @@
 				<asp:Button ID="btn_export_all" runat="server" OnClick="btn_export_all_Click" Text="导出数据" />
 			</div>
 			<div>
-			<asp:Repeater ID="rpt_patient" runat="server">
+			<asp:Repeater ID="rpt_patient" runat="server" 
+                    onitemdatabound="rpt_patient_ItemDataBound">
 				<HeaderTemplate>
 					<table>
 						<tr>
