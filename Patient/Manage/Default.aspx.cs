@@ -12,15 +12,16 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
     {
 		if (IsPostBack) return;
         UserPower user = Session["user"] as UserPower;
-		user = GetDummyUser();
+		//user = GetDummyUser();
         if (user == null)
         {
-            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>没有登录或会话失效，请登录！</script>");
+            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>alert('没有登录或会话失效，请登录！')</script>");
             Response.Redirect("../../Admin_login.aspx");
             return;
         }
-        PowerManage(user);
-		u_init();
+		string sqlWhere = GetPowerSqlWhere(user);
+		u_init(sqlWhere);
+		PowerManage(user);
     }
     private UserPower GetDummyUser()
     {
@@ -29,26 +30,58 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		Session["user"] = user;
         return user;
     }
-    private void PowerManage(UserPower user)
-    {
-        if (user.Power.Equals("admin"))
+	private string GetPowerSqlWhere(UserPower user)
+	{
+		string retValue = "";
+		if (user.IsAdmin())
         {
             //do nothing
         }
-        else if (user.Power.Equals("superuser"))
+        else if (user.IsSuperuser())
         {
         }
-        else if (user.Power.Equals("user"))
+        else if (user.IsUser())
         {
+			retValue = " and dept='" + user.UserDeptName + "' ";
+        }
+        else
+        {
+            //default
+        }
+		return retValue;
+	}
+	
+    private void PowerManage(UserPower user)
+    {
+        if (user.IsAdmin())
+        {
+            //do nothing
+        }
+        else if (user.IsSuperuser())
+        {
+			//ddl_dept.Visible = false;
+			//lbl_dept.Text = user.UserDeptName;
+			//p_floor.Visible = false;
+        }
+        else if (user.IsUser())
+        {
+			ddl_dept.Visible = false;
+			lbl_dept.Text = user.UserDeptName;
+			p_floor.Visible = false;
+			ddl_floor.Visible = false;
+			p_catigory2.Visible = false;
+			ddl_category2.Visible = false;
+			btn_export_floor.Visible = false;
+			div_operation.Visible = false;
         }
         else
         {
             //default
         }
     }
-	private void u_init()
+	private void u_init(string sqlWhere)
 	{
-		string sql = "select top 1000 * from dbo.JCI_patient_brifeInfo order by rdn DESC";
+		string sql = "select top 1000 * from dbo.JCI_patient_brifeInfo where 1=1 " + sqlWhere + " order by rdn DESC";
 		SqlConnect conn = new SqlConnect();
 		DataTable dt = conn.ExcuteSelect(sql);
 		rpt_patient.DataSource = dt;
@@ -78,20 +111,24 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		ddl_category2.DataValueField = "code";
 		ddl_category2.DataTextField = "name";
 		ddl_category2.DataBind();
-
+		//added by Chunhui Chen 2014-05-18
+		DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+		tbox_beginDate.Text = now.ToString("yyyy-MM-dd");
+		tbox_endDate.Text = now.AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd");
 	}
 	protected void btn_export_Click(object sender, EventArgs e)
 	{
 		PatientTable pt = new PatientTable();
 		DateTime beginDate, endDate;
-		string fileName = System.Configuration.ConfigurationManager.AppSettings["ExportPath"] + "医疗工作.xls";
+		string filePath = System.Configuration.ConfigurationManager.AppSettings["ExportPath"] + "医疗工作.xls";
 		beginDate = DateTime.Now.AddMonths(-1);
 		endDate = DateTime.Now.AddMonths(1);
 		beginDate = Convert.ToDateTime(tbox_beginDate.Text);
 		beginDate = beginDate.AddDays(-1);
 		endDate = Convert.ToDateTime(tbox_endDate.Text);
 		endDate = endDate.AddDays(1);
-		pt.Exportyl(fileName, beginDate, endDate,null);
+		string result = pt.Exportyl(filePath, beginDate, endDate, null);
+		DownloadFile(result, Response, filePath, "医疗工作.xls");
 	}
 	protected void btn_export_hl_Click(object sender, EventArgs e)
 	{
@@ -105,8 +142,9 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		endDate = endDate.AddDays(1);
 		string filePath = System.Configuration.ConfigurationManager.AppSettings["ExportPath"] + "护理工作.xls";
 		//string fileName = @"E:\testsrrsh" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
-		pt.Exporthl(filePath, beginDate, endDate,null);
-		DownloadFile(Response, filePath, "护理工作.xls");
+		string result = pt.Exporthl(filePath, beginDate, endDate,null);
+
+		DownloadFile(result, Response, filePath, "护理工作.xls");
 	}
 	protected void btn_export_yj_Click(object sender, EventArgs e)
 	{
@@ -119,8 +157,8 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		endDate = Convert.ToDateTime(tbox_endDate.Text);
 		endDate = endDate.AddDays(1);
 		string fileName = System.Configuration.ConfigurationManager.AppSettings["ExportPath"] + "医技工作.xls";
-		pt.Exportyj(fileName, beginDate, endDate,null);
-		//DownloadFile(Response, fileName, "医技工作.xls");
+		string result = pt.Exportyj(fileName, beginDate, endDate,null);
+		DownloadFile(result,Response, fileName, "医技工作.xls");
 	}
 	protected void btn_export_hq_Click(object sender, EventArgs e)
 	{
@@ -133,8 +171,8 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		endDate = Convert.ToDateTime(tbox_endDate.Text);
 		endDate = endDate.AddDays(1);
 		string fileName = System.Configuration.ConfigurationManager.AppSettings["ExportPath"] + "后勤工作.xls";
-		pt.Exporthq(fileName, beginDate, endDate,null);
-		//DownloadFile(Response, fileName, "医技工作.xls");
+		string result = pt.Exporthq(fileName, beginDate, endDate,null);
+		DownloadFile(result, Response, fileName, "后勤工作.xls");
 	}
 	protected void btn_export_zy_Click(object sender, EventArgs e)
 	{
@@ -147,8 +185,8 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		endDate = Convert.ToDateTime(tbox_endDate.Text);
 		endDate = endDate.AddDays(1);
 		string fileName = System.Configuration.ConfigurationManager.AppSettings["ExportPath"] + "行政收费.xls";
-		pt.Exportzy(fileName, beginDate, endDate, null);
-		//DownloadFile(Response, fileName, "医技工作.xls");
+		string result = pt.Exportzy(fileName, beginDate, endDate, null);
+		DownloadFile(result, Response, fileName, "行政收费.xls");
 	}
 	//btn_export_all_Click
 	protected void btn_export_all_Click(object sender, EventArgs e)
@@ -162,8 +200,8 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		endDate = Convert.ToDateTime(tbox_endDate.Text);
 		endDate = endDate.AddDays(1);
 		string fileName = System.Configuration.ConfigurationManager.AppSettings["ExportPath"] + "所有数据"+DateTime.Now.ToString("yyyyMMdd")+".xls";
-		pt.ExportAll(fileName, beginDate, endDate);
-		//DownloadFile(Response, fileName, "医技工作.xls");
+		string result = pt.ExportAll(fileName, beginDate, endDate);
+		DownloadFile(result, Response, fileName, "所有数据.xls");
 	}
 	protected void btn_export_floor_Click(object sender, EventArgs e)
 	{
@@ -179,26 +217,33 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		string category = ddl_category2.SelectedValue;
 		string fileName = System.Configuration.ConfigurationManager.AppSettings["ExportPath"] + category + "_" + floorName + DateTime.Now.ToString("yyyyMMdd") + ".xls";
 		string sqlWhere = " and brifeInfo.floorName ='" + floorName + "'";
+		string result = "";
 		switch (category)
 		{
 			case "医疗":
-				pt.Exportyl(fileName, beginDate, endDate, sqlWhere);
+				result = pt.Exportyl(fileName, beginDate, endDate, sqlWhere);
+				DownloadFile(result, Response, fileName, "医疗工作_" + category + "_" + floorName + ".xls");
 				break;
 			case "护理":
-				pt.Exporthl(fileName, beginDate, endDate, sqlWhere);
+				result = pt.Exporthl(fileName, beginDate, endDate, sqlWhere);
+				DownloadFile(result, Response, fileName, "护理工作_" + category + "_" + floorName + ".xls");
 				break;
 			case "医技":
-				pt.Exportyj(fileName, beginDate, endDate, sqlWhere);
+				result = pt.Exportyj(fileName, beginDate, endDate, sqlWhere);
+				DownloadFile(result, Response, fileName, "医技工作_" + category + "_" + floorName + ".xls");
 				break;
 			case "后勤":
-				pt.Exporthq(fileName, beginDate, endDate, sqlWhere);
+				result = pt.Exporthq(fileName, beginDate, endDate, sqlWhere);
+				DownloadFile(result, Response, fileName, "后勤工作_" + category + "_" + floorName + ".xls");
 				break;
 			case "行政-收费":
-				pt.Exportzy(fileName, beginDate, endDate, sqlWhere);
+				result = pt.Exportzy(fileName, beginDate, endDate, sqlWhere);
+				DownloadFile(result, Response, fileName, "行政-收费_" + category + "_" + floorName + ".xls");
 				break;
 			default:
 				break;
 		}
+
 
 	}
 	protected void btn_export_dept_Click(object sender, EventArgs e)
@@ -211,26 +256,48 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		beginDate = beginDate.AddDays(-1);
 		endDate = Convert.ToDateTime(tbox_endDate.Text);
 		endDate = endDate.AddDays(1);
-		string deptName = ddl_dept.SelectedValue;
+		string deptName = "";// ddl_dept.SelectedValue;
+		UserPower user = Session["user"] as UserPower;
+		if (user == null)
+		{
+			Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>alert('没有登录或会话失效，请登录！')</script>");
+			Response.Redirect("../../Admin_login.aspx");
+		}
+		else
+		{
+			deptName =user.GetPowerDept();
+			if (deptName.Equals(""))
+			{
+				//use selected dept
+				deptName = ddl_dept.SelectedValue;
+			}
+		}
+		//deptName = GetPowerDept()
 		string category = ddl_category1.SelectedValue;
 		string fileName = System.Configuration.ConfigurationManager.AppSettings["ExportPath"] + category + "_" + deptName + DateTime.Now.ToString("yyyyMMdd") + ".xls";
 		string sqlWhere = " and brifeInfo.dept ='" + deptName + "'";
+		string result = "";
 		switch (category)
 		{
 			case "医疗":
-				pt.Exportyl(fileName, beginDate, endDate, sqlWhere);
+				result = pt.Exportyl(fileName, beginDate, endDate, sqlWhere);
+				DownloadFile(result, Response, fileName, "医疗_" + category + "_" + deptName + ".xls");
 				break;
 			case "护理":
-				pt.Exporthl(fileName, beginDate, endDate, sqlWhere);
+				result = pt.Exporthl(fileName, beginDate, endDate, sqlWhere);
+				DownloadFile(result, Response, fileName, "护理_" + category + "_" + deptName + ".xls");
 				break;
 			case "医技":
-				pt.Exportyj(fileName, beginDate, endDate, sqlWhere);
+				result = pt.Exportyj(fileName, beginDate, endDate, sqlWhere);
+				DownloadFile(result, Response, fileName, "医技_" + category + "_" + deptName + ".xls");
 				break;
 			case "后勤":
-				pt.Exporthq(fileName, beginDate, endDate, sqlWhere);
+				result = pt.Exporthq(fileName, beginDate, endDate, sqlWhere);
+				DownloadFile(result, Response, fileName, "后勤_" + category + "_" + deptName + ".xls");
 				break;
 			case "行政-收费":
-				pt.Exportzy(fileName, beginDate, endDate, sqlWhere);
+				result = pt.Exportzy(fileName, beginDate, endDate, sqlWhere);
+				DownloadFile(result, Response, fileName, "行政-收费_" + category + "_" + deptName + ".xls");
 				break;
 			default:
 				break;
@@ -242,10 +309,21 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 		PatientTable pt = new PatientTable();
 		string rdn = e.CommandArgument.ToString();
 		pt.Delete(rdn);
-		u_init();
+		u_init("");
 	}
-	private void DownloadFile(HttpResponse response, string fileName, string saveFileName)
+	//btn_logout_Click
+	protected void btn_logout_Click(object sender, EventArgs e)
 	{
+		Session["user"] = null;
+		Response.Redirect("../../Admin_login.aspx");
+	}
+	private void DownloadFile(string result,HttpResponse response, string fileName, string saveFileName)
+	{
+		if (!"ok".Equals(result))
+		{
+			Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>alert('查询记录为空。')</script>");
+			return;
+		}
 		if (Request.UserAgent.Contains("MSIE") || Request.UserAgent.Contains("msie"))
 		{
 			saveFileName = HttpUtility.UrlEncode(saveFileName);
@@ -263,7 +341,7 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 	{
 		//e.Item.DataItem
 		UserPower user = Session["user"] as UserPower;
-		user = GetDummyUser();
+		//user = GetDummyUser();
 		if (user == null)
 		{
 			Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>没有登录或会话失效，请登录！</script>");

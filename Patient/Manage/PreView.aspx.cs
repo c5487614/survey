@@ -10,9 +10,18 @@ public partial class Patient_Manage_PreView : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 		if (IsPostBack) return;
-
+		
 		u_init();
     }
+	private void PowerManage()
+	{
+		UserPower user = Session["user"] as UserPower;
+		if (user == null)
+		{
+			Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>alert('没有登录或会话失效，请登录！')</script>");
+			Response.Redirect("../../Admin_login.aspx");
+		}
+	}
 	private void u_init()
 	{
 		string rdn = Request.QueryString["rdn"];
@@ -26,6 +35,19 @@ public partial class Patient_Manage_PreView : System.Web.UI.Page
 	{
 		SqlConnect conn = new SqlConnect();
 		string sql = "select * from dbo.JCI_patient_brifeInfo where rdn=" + rdn;
+		//if()
+		UserPower user = Session["user"] as UserPower;
+		if (user == null)
+		{
+			PowerManage();
+		}
+		else
+		{
+			if (user.IsUser()) 
+			{
+				sql += " and dept='" + user.UserDeptName + "'";
+			}
+		}
 		DataTable dt = conn.ExcuteSelect(sql);
 		DataRow dr = dt.Rows[0];
 		tbox_reportDate.Text = dr["regDept"].ToString();

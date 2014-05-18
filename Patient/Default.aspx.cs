@@ -46,7 +46,7 @@ public partial class Patient_Default : System.Web.UI.Page
 			Response.Redirect("../Admin_login.aspx");
 			return;
 		}
-		if (u.Power.Equals("admin"))
+		if (u.IsAdmin())
 		{
 			hf_hidden_test.Value = "true";
 		}
@@ -136,7 +136,7 @@ public partial class Patient_Default : System.Web.UI.Page
 			string result = pt.saveBrifeInfo(sfillperson, sIsFirst, sPsex, sregDate, sreportDate, sjob, sother1, sother2, HiddenField1.Value, spayType, sregDept, sfloor, sbpromote.ToString(), sbneedimprove.ToString(), GridView1);
             if (result == "ok")
             {
-				Response.Redirect("Default.aspx");
+				Response.Redirect("Default.aspx", false);
                 //Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>alert('添加成功');window.location='../tableList.aspx'</script>");
             }
         }

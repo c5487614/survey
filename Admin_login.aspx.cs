@@ -28,17 +28,17 @@ public partial class Admin_login : System.Web.UI.Page
             if (user != null)
             {
                 Session["user"] = user;
-                Response.Redirect("Patient/Manage/Default.aspx");
+				Response.Redirect("Patient/Manage/Default.aspx",false);
             }
             else
             {
-                Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>用户名或密码错误！</script>");
+                Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "javascript", "<script>alert('用户名或密码错误！');</script>");
                 return;
             }
         }
         catch (Exception ex)
         {
-            Response.Write(ex.ToString());
+            //Response.Write(ex.ToString());
         }
     }
 }

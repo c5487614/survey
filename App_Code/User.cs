@@ -57,6 +57,15 @@ public class UserPower
         get { return psw; }
         set { psw = value; }
     }
+
+	private string userDeptName;
+
+	public string UserDeptName
+	{
+		get { return userDeptName; }
+		set { userDeptName = value; }
+	}
+
     public UserPower()
     {
         //
@@ -98,15 +107,35 @@ public class UserPower
 		if (this.Power.Equals("user")) return true;
 		return false;
 	}
-
+	public string GetPowerDept()
+	{
+		string retValue = "";
+		if (this.IsAdmin())
+		{
+			//do nothing
+		}
+		else if (this.IsSuperuser())
+		{
+		}
+		else if (this.IsUser())
+		{
+			retValue = this.UserDeptName;
+		}
+		else
+		{
+			//default
+		}
+		return retValue;
+	}
     public UserPower Login(UserPower u)
     {
         SqlConnect conn = new SqlConnect();
-        string sql = "select * from dbo.JCI_newEmp emp where 1=1 where emp.empId='" + u.UserId + "' and emp.deptNum='" + u.UserDept + "' and emp.psw='" + u.Psw + "'";
+        string sql = "select * from dbo.JCI_newEmp emp where 1=1 and emp.empId='" + u.UserId + "' and emp.deptNum='" + u.UserDept + "' and emp.psw='" + u.Psw + "'";
         DataTable dt = conn.ExcuteSelect(sql);
-        if (dt.Rows.Count >= 0) 
+        if (dt.Rows.Count > 0) 
         {
             u.Power = GetPower(dt.Rows[0]["power"].ToString());
+			u.UserDeptName = dt.Rows[0]["deptName"].ToString();
             return u;
         }
         return null;
