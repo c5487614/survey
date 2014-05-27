@@ -136,9 +136,17 @@ public class UserPower
         {
             u.Power = GetPower(dt.Rows[0]["power"].ToString());
 			u.UserDeptName = dt.Rows[0]["deptName"].ToString();
+			u.UserDept = dt.Rows[0]["deptNum"].ToString();
             return u;
         }
         return null;
        
     }
+	public bool ChangePsw(UserPower user, string newPsw)
+	{
+		SqlConnect conn = new SqlConnect();
+		string sql = "update dbo.JCI_newEmp set psw='" + newPsw + "' where empId='" + user.UserId + "' and deptNum='" + user.UserDept + "'";
+		conn.ExcuteCmd(sql);
+		return true;
+	}
 }

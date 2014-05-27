@@ -83,9 +83,12 @@
 <body style="background-image:url(../Image/bg_01.gif); background-repeat:repeat-x">
     <form id="form1" runat="server">
     <asp:HiddenField ID="hf_hidden_test" runat="server" />
-    <div class="mainDiv">
+    <div class="mainDiv1">
         <div style="text-align:center">
          <h2>邵逸夫医院住院病人满意度调查表</h2>
+        </div>
+        <div>
+            <asp:Button ID="btn_manage" OnClick="btn_manage_Click" runat="server" Text="查看结果" />
         </div>
         <div>
 			

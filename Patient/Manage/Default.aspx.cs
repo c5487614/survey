@@ -56,6 +56,7 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
         if (user.IsAdmin())
         {
             //do nothing
+			btn_insert.Visible = true;
         }
         else if (user.IsSuperuser())
         {
@@ -316,6 +317,15 @@ public partial class Patient_Manage_Default : System.Web.UI.Page
 	{
 		Session["user"] = null;
 		Response.Redirect("../../Admin_login.aspx");
+	}
+	//btn_insert_Click
+	protected void btn_insert_Click(object sender, EventArgs e)
+	{
+		Response.Redirect("../Default.aspx");
+	}
+	protected void btn_changePsw_Click(object sender, EventArgs e)
+	{
+		Response.Redirect("Password.aspx");
 	}
 	private void DownloadFile(string result,HttpResponse response, string fileName, string saveFileName)
 	{

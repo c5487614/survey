@@ -49,10 +49,12 @@ public partial class Patient_Default : System.Web.UI.Page
 		if (u.IsAdmin())
 		{
 			hf_hidden_test.Value = "true";
+			btn_manage.Visible = true;
 		}
 		else
 		{
 			hf_hidden_test.Value = "false";
+			btn_manage.Visible = false;
 		}
 	}
     private string getInfo(CheckBox[] cbs)
@@ -63,7 +65,10 @@ public partial class Patient_Default : System.Web.UI.Page
         }
         return "";
     }
-
+	protected void btn_manage_Click(object sender, EventArgs e)
+	{
+		Response.Redirect("Manage/Default.aspx");
+	}
     protected void Button1_Click1(object sender, EventArgs e)
     {
 		if (hf_hidden_test.Value.Equals("false"))

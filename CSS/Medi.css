@@ -16,6 +16,12 @@ color:#333333;
 }
 .mainDiv
 {
+	width:850px;
+	text-align:left;
+	margin:auto;
+}
+.mainDiv1
+{
 	width:950px;
 	text-align:left;
 	margin:auto;
@@ -47,6 +53,6 @@ color:#333333;
 }
 .tbox_advice
 {
-    width:400px;
+    width:300px;
     height:70px;
 }

@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>邵逸夫医院护理进修管理页面</title>
+<title>邵逸夫医院JCI办公室--住院病人满意度调查</title>
 </head>
 
 <body style="background-image:url(Image/login_back.jpg); margin:0px; text-align:center;">

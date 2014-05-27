@@ -12,8 +12,74 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/Caculate.js"></script>
     <script type="text/javascript" language="javascript">
     </script>
+    <style type="text/css">
+* {
+	font-size:14px;
+	color:#333;
+}
+body {
+	margin:0px;
+	text-align:center;
+}
+ul {
+	float:left;
+	margin:0px;
+	padding:0px;
+}
+li {
+	float:left;
+	list-style:none;
+	border-bottom:1px solid #ccc;
+	border-right:1px solid #ccc;
+	height:24px;
+	line-height:24px;
+	padding-left:10px;
+	overflow:hidden;
+}
+.clear {
+	height:0px;
+	clear:left;
+	font-size:0px;
+	line-height:0px;
+}
+.tits {
+	height:36px;
+	float:left;
+	padding-left:10px;
+	line-height:36px;
+	font-size:16px;
+	font-weight:bold;
+	color:#333;
+	border-bottom:1px solid #ccc;
+	border-right:1px solid #ccc;
+}
+.txts {
+	float:left;
+	width:880px;
+	padding:10px;
+	text-align:left;
+}
+.txts div {
+	width:870px;
+	padding-left:10px;
+	line-height:22px;
+}
+.ccbak{
+	background-color:#eee;
+}
+.senb{
+	background:#fff;
+	color:#333;
+}
+
+</style>
 </head>
-<body style="background-image:url(../../Image/bg_01.gif); background-repeat:repeat-x">
+<body style=" background-image:url(../../Image/bg.jpg);">
+<div style="margin:auto; width:1000px;">
+<div style="padding:0px 20px; float:left;">
+	<div style="height:144px; padding:0px 30px; background:url(../../Image/manbg.jpg) no-repeat;"></div>
+  <div style="padding:10px 10px; width:900px; padding:12px 30px; float:left; background:url(../../Image/mbg.jpg)">
+    <div style="float:left;  width:898px; border:1px solid #ccc;text-align:left; height:1700px;">
     <form id="form1" runat="server">
     <div class="mainDiv">
         <div style="text-align:center">
@@ -103,7 +169,7 @@
                             <asp:Label ID="Label2" runat="server" Text='<%# Eval("smallItemName") %>'></asp:Label>
                         </div>
                             <%--<br />--%>
-                        <div style=" float:left; width:300px">
+                        <div style=" float:right; width:200px">
 							<asp:Label ID="Label3" runat="server" Text="Label"></asp:Label>
                         </div>
                             <asp:HiddenField ID="hf_largeItemRdn" Value='<%#Eval("largeItemRdn") %>' runat="server" />
@@ -184,5 +250,13 @@
         </div>
     </div>
     </form>
+    </div>
+    
+    
+  </div>
+  <div class="clear"></div>
+  <div style="height:90px; padding:0px 30px; background:url(../../Image/manbg.jpg) no-repeat 0px -700px;"></div>
+  </div>
+</div>
 </body>
 </html>

@@ -38,7 +38,7 @@ public partial class Admin_login : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            //Response.Write(ex.ToString());
+            Response.Write(ex.ToString());
         }
     }
 }

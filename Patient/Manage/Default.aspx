@@ -4,10 +4,11 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>test</title>
+    <title>邵逸夫医院住院病人满意度调查表</title>
     <link href="../../CSS/jquery-ui-1.8.custom.css" rel="Stylesheet" type="text/css" />
     <link href="../../CSS/Medi.css" rel="Stylesheet" type="text/css" />
     <style type="text/css">
+        
     #table_view {
 	    width: 700px;
 	    padding: 0;
@@ -31,6 +32,7 @@
 	    background: #F5FAFA;
 	    color: #B4AA9D;
     }
+    
     
     </style>
     <script type="text/javascript" language="javascript" src="../../JavaScript/jquery-1.4.2.min.js"></script>
@@ -66,7 +68,12 @@
     	});
     </script>
 </head>
-<body style="background-image:url(../../Image/bg_01.gif); background-repeat:repeat-x">
+<body style=" background-image:url(../../Image/bg.jpg);">
+<div style="margin:auto; width:1000px;">
+<div style="padding:0px 20px; float:left;">
+	<div style="height:144px; padding:0px 30px; background:url(../../Image/manbg.jpg) no-repeat;"></div>
+  <div style="padding:10px 10px; width:900px; padding:12px 30px; float:left; background:url(../../Image/mbg.jpg)">
+    <div style="float:left;  width:898px; border:1px solid #ccc;text-align:left; height:1700px;">
     <form id="form1" runat="server">
 		<div class="mainDiv">
 			<div style="text-align:center">
@@ -74,6 +81,8 @@
 			</div>
 			<div>
 			<asp:Button ID="btn_logout" runat="server" OnClick="btn_logout_Click" Text="退出" />
+			<asp:Button ID="btn_insert" runat="server" Visible="false" OnClick="btn_insert_Click" Text="录入" />
+			<asp:Button ID="btn_changePsw" runat="server" OnClick="btn_changePsw_Click" Text="修改密码" />
 			</div>
 			<table >
 				<tr>
@@ -143,5 +152,13 @@
 		</div>
 		
     </form>
+ </div>
+    
+    
+  </div>
+  <div class="clear"></div>
+  <div style="height:90px; padding:0px 30px; background:url(../../Image/manbg.jpg) no-repeat 0px -700px;"></div>
+  </div>
+</div>
 </body>
 </html>
